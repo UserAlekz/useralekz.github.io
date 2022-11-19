@@ -2,7 +2,7 @@ var coords = { x: 170, y: 10, w: 95, h: 210 }
 var pageID = 0
 var stuff = ""
 function uiSetImage(id){
-    var urls = ["https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=510&t=st=1668364114~exp=1668364714~hmac=6f85b3492a1a19a46a1e31435bc4f01bfee4bbf844db2b91a46f0a393fce603f", "https://img.freepik.com/free-photo/plants-on-a-wooden-floor-in-empty-white-room_41470-4664.jpg?w=510&t=st=1668447664~exp=1668448264~hmac=51b5144b43ba4d1bf3452c7b37cfc76219c1731519bc4863266ec865321912a1", "https://img.freepik.com/free-photo/dark-wall-empty-room-with-plants-on-a-floor-3d-rendering_41470-3847.jpg?w=510&t=st=1668447682~exp=1668448282~hmac=06bbff5abe10efc3ce51de79d8c4462489032dc183205076f73d4be696e8297b"]
+    var urls = ["https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=510&t=st=1668364114~exp=1668364714~hmac=6f85b3492a1a19a46a1e31435bc4f01bfee4bbf844db2b91a46f0a393fce603f", "https://img.freepik.com/free-photo/plants-on-a-wooden-floor-in-empty-white-room_41470-4664.jpg?w=559&t=st=1668447664~exp=1668448264~hmac=51b5144b43ba4d1bf3452c7b37cfc76219c1731519bc4863266ec865321912a1", "https://img.freepik.com/free-photo/dark-wall-empty-room-with-plants-on-a-floor-3d-rendering_41470-3847.jpg?w=510&t=st=1668447682~exp=1668448282~hmac=06bbff5abe10efc3ce51de79d8c4462489032dc183205076f73d4be696e8297b"]
     document.getElementById("tool").style.backgroundImage = `url('${urls[id]}')`
 }
 function uiButtonPage(str){
