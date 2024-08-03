@@ -1,41 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Door design tool</title>
-    <script src="https://useralekz.github.io/software.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script><script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product configurator example</title>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>-->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Design customization tool -->
-    <br/><div class="container" onload="uiToolTweak()">
-        <div class="row">
-            <div class="col-3"><p>Wall examples</p><div class="vstack gap-1" style="width: 91px;">
-                <img class="rounded border border-primary border-3" src="https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=91&t=st=1668364114~exp=1668364714~hmac=6f85b3492a1a19a46a1e31435bc4f01bfee4bbf844db2b91a46f0a393fce603f" onclick="uiSetImage(0)"/>
-                <img class="rounded border border-primary border-3" src="https://img.freepik.com/free-photo/plants-on-a-wooden-floor-in-empty-white-room_41470-4664.jpg?w=91&t=st=1668447664~exp=1668448264~hmac=51b5144b43ba4d1bf3452c7b37cfc76219c1731519bc4863266ec865321912a1" onclick="uiSetImage(1)"/>
-                <img class="rounded border border-primary border-3" src="https://img.freepik.com/free-photo/dark-wall-empty-room-with-plants-on-a-floor-3d-rendering_41470-3847.jpg?w=91&t=st=1668447682~exp=1668448282~hmac=06bbff5abe10efc3ce51de79d8c4462489032dc183205076f73d4be696e8297b" onclick="uiSetImage(2)"/></div>
-            </div>
-            <div class="col-6" id="tool" style="background-repeat: no-repeat; background-image: url('https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=510&t=st=1668364114~exp=1668364714~hmac=6f85b3492a1a19a46a1e31435bc4f01bfee4bbf844db2b91a46f0a393fce603f');">
-                <svg id="svgID" onload="uiToolTweak()" width="620" height="320" viewBox="0 0 620 320" xmlns="http://www.w3.org/2000/svg"></svg></div>
-            <div class="col-3 card p-3">
-                <label id="labelID">Please specify height</label><br/>
-                <div class="row"><div class="col"><input id="numberID" type="number" min="50" max="300" value="210" class="form-control" onchange="uiToolTweak()" style="width: 91px"/></div><div class="col"><label id="unitsID"> centimeters</label></div></div>
-                <div id="hingesID" style="visibility: hidden;"><input type="radio" id="radioA" name="hinges" onchange="uiToolTweak()"/> One hinge<br/><input type="radio" id="radioB" name="hinges" onchange="uiToolTweak()"/> Two hinges<br/><input type="radio" id="radioC" checked="true" name="hinges" onchange="uiToolTweak()"/> Three hinges</div><br/>
-                <div class="row p-3"><div class="col"><button class="btn btn-primary" id="buttonA" onclick="uiButtonPage('previous')" style="visibility: hidden;">Previous</button></div><div class="col"></div><div class="col"><button class="btn btn-primary" id="buttonB" onclick="uiButtonPage('proceed')">Proceed</button></div></div>
-            </div>
+  <header>
+  <div><h3 style="text-align:center;">Let your customers experience the freedom to easily customize and buy your products.</h3></div>
+  <div class="navbar">
+      <div class="rounded-square" onclick="selectTab('step1')"><!--Step -->1</div><div class="step active" id="step1" onclick="selectTab('step1')">Specify product size</div>
+      <div class="rounded-square" onclick="selectTab('step2')"><!--Step -->2</div><div class="step" id="step2" onclick="selectTab('step2')">Select color and texture</div>
+      <div class="rounded-square" onclick="selectTab('step3')"><!--Step -->3</div><div class="step" id="step3" onclick="selectTab('step3')">Add features</div>
+      <div class="rounded-square" onclick="selectTab('step4')"><!--Step -->4</div><div class="step" id="step4" onclick="selectTab('step4')">Order / Buy </div>
+      <button class="fancy-green-button" onclick="alert('Assist your clients with any issues or questions using a range of tools, from phone and email to advanced CRM systems. You can also integrate an on-screen tutorial or video guide to demonstrate how clients can use the customization tool effectively.')">Need Help?</button>
+  </div>
+  </header>
+  <main>
+  <div style="display: flex; flex-direction: row; height: 95%; width:99%;">
+  <div class="editor round-border" style="flex-direction: column;"><!--display: flex;-->
+    <div id="size" class="panel active" style="">
+      <p class="description">This example demonstrates a scenario where customers can customize their door design by adjusting its size, choosing color and texture options, and adding various features.</p>
+      <h2>Please specify door size</h2>
+      <div class="input-group">
+            <label for="height">Height</label>
+            <input type="range" id="rangeHeight" min="160" max="450" style="width: 19ch;" oninput="heightSliderTweak()">&nbsp;<input type="number" id="height" name="height" min="160" max="450" placeholder="Enter height" style="max-width: 9ch;" value="210" oninput="heightNumberTweak()">
         </div>
-    </div>
-    <br/>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5QXYZT8E5Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-5QXYZT8E5Y');
-</script>
+        <div class="input-group">
+            <label for="width">Width</label>
+            <input type="range" id="rangeWidth" min="50" max="300" style="width: 19ch;" oninput="widthSliderTweak()">&nbsp;<input type="number" id="width" name="width" placeholder="Enter width" min="50" max="300" style="max-width: 9ch;" value="90" oninput="widthNumberTweak()">
+
+        </div>
+<!--        <div class="input-group">
+            <label for="elevation">Handle height/elevation</label>
+            <input type="number" id="elevation" name="elevation" placeholder="Enter elevation">
+        </div>--><div style="display: flex;flex-direction: row; padding: 10px;">
+        Units: Inches<div class="toggle-switch" style="padding-left: 10px; padding-right: 10px;">
+             <input type="checkbox" id="toggle" checked />
+            <label for="toggle"></label>
+        </div>Centimeters</div>
+      </div>
+      <div id="color" class="panel"><p class="description">Various methods can be implemented to enable users to select colors and textures, options include: a color picker dialog, color name/code entry, and a grid of sample options for users to choose from. Additionally, for textures clients can upload their own images.</p>
+        <div style="flow-direction: row; display: flex; width: 100%;">
+<!--                <div class="color-picker">
+                <label for="colorInput">Select Color:</label>
+                <input type="color" id="colorInput" value="#ffff00">
+            </div>-->
+            <div class="color-picker">
+                <label for="colorGrid"><h3>Colors:</h3></label>
+                <div id="colorGrid" class="grid">
+                    <div class="color" style="background-color: #ff0000;" data-color="#ff0000"></div>
+                    <div class="color" style="background-color: #00ff00;" data-color="#00ff00"></div>
+                    <div class="color" style="background-color: #0000ff;" data-color="#0000ff"></div>
+                    <div class="color" style="background-color: #ffff00;" data-color="#ffff00"></div>
+                    <div class="color" style="background-color: #ff00ff;" data-color="#ff00ff"></div>
+                    <div class="color" style="background-color: #00ffff;" data-color="#00ffff"></div>
+                    <div class="color" style="background-color: #000000;" data-color="#000000"></div>
+                    <div class="color" style="background-color: #808080;" data-color="#808080"></div>
+                    <div class="color" style="background-color: #c0c0c0;" data-color="#c0c0c0"></div>
+                </div>
+            </div>
+
+        <div class="texture-picker">
+            <label for="textureGrid"><h3>Textures:</h3></label>
+            <div id="textureGrid" class="grid">
+                <div class="texture" style="background-image: url('images/texture1.png');" data-texture="texture1.png"></div>
+                <div class="texture" style="background-image: url('images/texture2.png');" data-texture="texture2.png"></div>
+                <div class="texture" style="background-image: url('images/texture3.png');" data-texture="texture3.png"></div>
+                <div class="texture" style="background-image: url('images/texture4.png');" data-texture="texture4.png"></div>
+                <div class="texture" style="background-image: url('images/texture5.png');" data-texture="texture5.png"></div>
+                <div class="texture" style="background-image: url('images/texture6.png');" data-texture="texture6.png"></div>
+                <div class="texture" style="background-image: url('images/texture7.png');" data-texture="texture7.png"></div>
+                <div class="texture" style="background-image: url('images/texture8.png');" data-texture="texture8.png"></div>
+                <div class="texture" style="background-image: url('images/texture9.png');" data-texture="texture9.png"></div>
+            </div>
+        </div></div>
+      </div>
+      <div id="features" class="panel"><p class="description">
+In addition to size and color, users can customize a wide range of other features. This can be achieved through various methods, from simple toggles and checkboxes to selection lists and advanced editors tailored to specific requirements.</p>
+      <div class="form-group">
+                <label><h3>Choose additional features</h3></label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="lock" name="features" value="lock" onclick="refreshScreen()">
+                        <label for="lock">Lock</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="handle" name="features" value="handle" onclick="refreshScreen()">
+                        <label for="handle">Door Handle</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hinges" name="features" value="hinges" onclick="refreshScreen()">
+                        <label for="hinges">Hinges</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="peephole" name="features" value="peephole" onclick="refreshScreen()">
+                        <label for="peephole">Peephole</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="doorbell" name="features" value="doorbell" onclick="refreshScreen()">
+                        <label for="doorbell">Doorbell</label>
+                    </div>
+                    <!--<div class="checkbox-item">
+                        <input type="checkbox" id="petdoor" name="features" value="petdoor" onclick="refreshScreen()">
+                        <label for="petdoor">Pet Door</label>
+                    </div>-->
+                </div>
+            </div>
+          </div>
+      <div id="order" class="panel">
+      <p class="description">Ordering customized products can be seamlessly incorporated into your current workflows, shopping carts, CRM systems, and other systems you use</p>
+      <h3>Place an order / Buy</h3>
+            <!--<form action="#" method="post">-->
+            <div class="input-group">
+                <label for="clientName">Name:</label>
+                <input type="text" id="clientName" name="clientName" required>
+            </div>
+
+            <div class="input-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <p class="description">
+<b>Price</b>: can be calucated automatically based on your formulas.</p>
+<!--            <div class="input-group review-section">
+                <h2>Product Review</h2>
+                Size, Price, etc
+                <div class="review-group">
+                    <label for="size">Size:</label>
+                    <select id="size" name="size" required>
+                        <option value="" disabled selected>Select a size</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
+                <div class="review-group">
+                    <label for="price">Price:</label>
+                    <input type="text" id="price" name="price" required>
+                </div>
+            </div>-->
+
+            <div class="form-group">
+                <button type="submit" class="order_button" onclick="alert('Send a notification message about a new order')">Submit Order</button>
+            </div>
+        <!--</form>--></div>
+  </div>
+  <div class="svg-wrapper round-border" id="svgDivID" style="background-repeat: no-repeat; height: 95%;"><!--display: flex;-->
+  <svg style="display:block;" id="svgCanvas" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"></svg><canvas id="myCanvas"></canvas>
+  </div></div>
+  </main>
+  <footer>
+  <!-- Horizontal Bar at the Bottom -->
+  <div class="bottom-bar"> Select a wall picture:
+      <img src="https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=91&t=st=1668364114~exp=1668364714~hmac=6f85b3492a1a19a46a1e31435bc4f01bfee4bbf844db2b91a46f0a393fce603f" alt="Image 1" id="image1" class="image" onclick="handleImageClick('image1')">
+      <img src="https://img.freepik.com/free-photo/plants-on-a-wooden-floor-in-empty-white-room_41470-4664.jpg?w=91&t=st=1668447664~exp=1668448264~hmac=51b5144b43ba4d1bf3452c7b37cfc76219c1731519bc4863266ec865321912a1" alt="Image 2" id="image2" class="image" onclick="handleImageClick('image2')">
+      <img src="https://img.freepik.com/free-photo/dark-wall-empty-room-with-plants-on-a-floor-3d-rendering_41470-3847.jpg?w=91&t=st=1668447682~exp=1668448282~hmac=06bbff5abe10efc3ce51de79d8c4462489032dc183205076f73d4be696e8297b" alt="Image 3" id="image3" class="image" onclick="handleImageClick('image3')">
+      <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect()">
+      <button onclick="document.getElementById('fileInput').click()">Select Your Own Image</button>
+  </div>
+  </footer>
+  <script src="script.js"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5QXYZT8E5Y');
+    </script>
 </body>
 </html>
