@@ -45,7 +45,10 @@ function handleImageClick(imageId) {
             selectedWallID = i
             imgURL = wallImageURLs[i]
         }
-    img.src = imgURL+document.getElementById("myCanvas").width //document.getElementById("svgDivID").style.backgroundImage = `url(${imgURL})`/*${selectedImage.src}urls[id]*/
+    if(imageId == "imageCustom")
+        img.src = document.getElementById("imageCustom").src
+    else
+        img.src = imgURL+document.getElementById("myCanvas").width //document.getElementById("svgDivID").style.backgroundImage = `url(${imgURL})`/*${selectedImage.src}urls[id]*/
     refreshScreen()
 }
 
